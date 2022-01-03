@@ -87,6 +87,8 @@ stop server and go to your terminal of your project dir
 
     composer require laravel/ui
 
+    php artisan ui vue --auth
+
     npm install
 
     npm run development
