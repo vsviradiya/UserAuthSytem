@@ -64,3 +64,41 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+create user authentication using ui auth
+
+step 1: 
+
+open your lampp html directory and create new project 
+
+    laravel new example-app 
+
+    cd example-app
+
+step 2: 
+
+run your project using artisan
+
+    php artisan serve
+
+step 3: 
+
+stop server and go to your terminal of your project dir
+
+    composer require laravel/ui
+
+    npm install
+
+    npm run development
+
+step 4:  
+
+start server using artisan and go browser you can see login and register page then make database in phpmyadmin what you define in .env file and then migrate
+
+    php artisan migrate
+
+    php artisan serve
+
+    
+
+    
