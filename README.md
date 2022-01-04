@@ -102,5 +102,30 @@ start server using artisan and go browser you can see login and register page th
     php artisan serve
 
     
+step:5
 
+add seeder for seed data in user table 
+
+    php artisan make:seeder UserSeeder
+
+add data using facker for test data in database
+
+    php artisan db:seed
+
+step 6: 
+
+add yajara datatable using cmd line
+
+    composer require yajra/laravel-datatables-oracle:"~9.0"
+
+    add yajara datatable class in config/app.php
     
+    providers' => [
+
+        Yajra\DataTables\DataTablesServiceProvider::class,
+    
+    ]
+
+    publish configuration & assets:
+
+    php artisan vendor:publish --tag=datatables
