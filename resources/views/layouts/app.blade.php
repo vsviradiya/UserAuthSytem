@@ -103,7 +103,7 @@
                     "orderable": false,
                     "width": "4%",
                     "render": function(row) {
-                        return '<a href="javascript:void(0)"><i class="fa fa-edit"></i></a>&nbsp; &nbsp;<a href="javascript:void(0)" style="color:red;" ><i class="fa fa-trash"></i></a>';
+                        return '<a href="javascript:void(0)" id="' + row.id + '"><i class="fa fa-edit"></i></a>&nbsp; &nbsp;<a href="javascript:void(0)" id="' + row.id + '"style="color:red;" ><i class="fa fa-trash"></i></a>';
                     },
                     
                 },
