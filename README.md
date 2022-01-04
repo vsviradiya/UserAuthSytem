@@ -118,7 +118,7 @@ add yajara datatable using cmd line
 
     composer require yajra/laravel-datatables-oracle:"~9.0"
 
-    add yajara datatable class in config/app.php
+add yajara datatable class in config/app.php
     
     providers' => [
 
@@ -126,6 +126,6 @@ add yajara datatable using cmd line
     
     ]
 
-    publish configuration & assets:
+publish configuration & assets:
 
     php artisan vendor:publish --tag=datatables
