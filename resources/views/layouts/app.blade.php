@@ -11,12 +11,21 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    {{-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> --}}
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" > --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"  />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -79,5 +88,28 @@
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript">
+        $(function () {
+          var table = $('.user_datatable').DataTable({
+              processing: true,
+              serverSide: true,
+              ajax: "{{ route('home') }}",
+              columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    {"data": null,
+                    "searchable": false,
+                    "orderable": false,
+                    "width": "4%",
+                    "render": function(row) {
+                        return '<a href="javascript:void(0)"><i class="fa fa-edit"></i></a>&nbsp; &nbsp;<a href="javascript:void(0)" style="color:red;" ><i class="fa fa-trash"></i></a>';
+                    },
+                    
+                },
+              ]
+          });
+        });
+      </script>
 </body>
 </html>
