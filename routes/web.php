@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,14 +23,17 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/subscribers', function () {
+Route::post('del_user', [App\Http\Controllers\HomeController::class, 'delete']);
+
+
+// Route::get('/subscribers', function () {
    
-    $details = [
-        'title' => 'Mail from logisticli15',
-        'body' => 'This is for testing email using smtp'
-    ];
+//     $details = [
+//         'title' => 'Mail from logisticli15',
+//         'body' => 'This is for testing email using smtp'
+//     ];
    
-    \Mail::to('vaibhavviradiya123.vv@gmail.com')->send(new \App\Mail\Subscribe($details));
+//     Mail::to($user->email)->send(new \App\Mail\Subscribe($details));
    
-    dd("Email is Sent.");
-});
+//     dd("Email is Sent.");
+// });

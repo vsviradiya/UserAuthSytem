@@ -20,6 +20,7 @@ class Subscribe extends Mailable
     public function __construct($details)
     {
         $this->details = $details;
+
     }
 
     /**
@@ -29,7 +30,7 @@ class Subscribe extends Mailable
      */
     public function build()
     {
-        return $this->subject('send mail of on php artisan')
+        return $this->subject('send mail using observe')
                     ->view('emails.subscribers');
     }
 }

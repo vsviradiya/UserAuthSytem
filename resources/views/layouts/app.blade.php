@@ -89,27 +89,66 @@
         </main>
     </div>
     <script type="text/javascript">
-        $(function () {
-          var table = $('.user_datatable').DataTable({
-              processing: true,
-              serverSide: true,
-              ajax: "{{ route('home') }}",
-              columns: [
-                    {data: 'id', name: 'id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    {"data": null,
-                    "searchable": false,
-                    "orderable": false,
-                    "width": "4%",
-                    "render": function(row) {
-                        return '<a href="javascript:void(0)" id="' + row.id + '"><i class="fa fa-edit"></i></a>&nbsp; &nbsp;<a href="javascript:void(0)" id="' + row.id + '"style="color:red;" ><i class="fa fa-trash"></i></a>';
-                    },
-                    
-                },
-              ]
-          });
+
+        $(document).ready(function(){
+
+            $(function () {
+                var table = $('.user_datatable').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('home') }}",
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'name', name: 'name'},
+                        {data: 'email', name: 'email'},
+                        {
+                        "data": null,
+                        "searchable": false,
+                        "orderable": false,
+                        "width": "2%",
+                            "render": function(row) {
+                                return "<button type='button' class='edit btn border-0 btn-light'><i class='fas fa-edit'></i></button>";
+                            },
+                        },
+
+                        {
+                        "data": null,
+                        "searchable": false,
+                        "orderable": false,
+                        "width": "2%",
+                            "render": function (row) {
+                                return "<button type='button' id ='" + row.id + "' class='remove btn border-0 btn-light' style='color:red;'><i class='remove fas fa-trash'></i></button>";
+                            },
+                        },
+                    ]
+                });
+            });
+             
+            var delid;
+            $(".user_datatable tbody").on("click", ".remove", function () {
+                delid = $(this).attr("id");
+                if(delid !=undefined) {
+                    if (confirm("Delete user?") == true) {
+                        var id = delid;
+                        $.ajaxSetup({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            type:"POST",
+                            url: "{{ url('del_user') }}",
+                            data: { id: id },
+                            dataType: 'json',
+                            success: function(res){
+                                $('.user_datatable').DataTable().ajax.reload(false);
+                            }
+                        });
+                    }    
+                }
+            })
         });
-      </script>
+
+    </script>
 </body>
 </html>

@@ -2,7 +2,15 @@
 
 namespace App\Observers;
 
+use Illuminate\Http\Request;
+
 use App\Models\User;
+
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Support\Facades\Log;
+
+use App\Mail\Subscribe;
 
 class UserObserver
 {
@@ -36,8 +44,23 @@ class UserObserver
      */
     public function deleted(User $user)
     {
-        $user->delete();
+        // $this->sendMailable($user, Subscribe::class);
+        dd($user ,"vvv");
+        $details = [
+            'title' => 'Mail from logisticli15',
+            'body' => 'This is for testing email using smtp'
+        ];
+
+        Mail::to('vaibhavviradiya123.vv@gmail.com')->send(new \App\Mail\Subscribe($details));
         
+        // Log::info(["detail" => $details]);
+        // $del_user = User::find($id);
+
+        // $details = [
+        //     'title' => 'Mail from logisticli15',
+        //     'body' => 'user is deleted'
+        // ];
+        // dd($user);
 
     }
 

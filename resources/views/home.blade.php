@@ -17,6 +17,11 @@
                     {{ __('You are logged in!') }}
                 </div>
             </div> --}}
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+            @endif
             <div class="container">
                 <table class="table table-sortable user_datatable">
                     <thead>
@@ -24,7 +29,9 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th width="100px">Action</th>
+                            <th width="100px">#</th>
+                            <th width="100px">#</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -35,7 +42,8 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th width="100px">Action</th>
+                            <th width="100px">#</th>
+                            <th width="100px">#</th>
                         </tr>
                     </tfoot>
                 </table>
