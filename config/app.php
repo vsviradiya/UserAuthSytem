@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        // Illuminate\Html\HtmlServiceProvider,
         Yajra\DataTables\DataTablesServiceProvider::class,
 
         /*
@@ -231,6 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Form'=> Illuminate\Html\FormFacades::class,
+        'html' => Illuminate\Html\HtmlFacades::class,
 
     ],
 

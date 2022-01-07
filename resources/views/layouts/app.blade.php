@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" > --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"  />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -107,7 +108,8 @@
                         "orderable": false,
                         "width": "2%",
                             "render": function(row) {
-                                return "<button type='button' class='edit btn border-0 btn-light'><i class='fas fa-edit'></i></button>";
+                                // return "<button type='button'id ='" + row.id + "' nam='" + row.name + "' mail='" + row.email + "'class='edit btn border-0 btn-light'><i class='fas fa-edit'></i></button>";
+                                return "<a href='edit/" + row.id + "' id ='" + row.id + "' nam='" + row.name + "' mail='" + row.email + "'class='edit btn border-0 btn-light'><i class='fas fa-edit'></i></a>"
                             },
                         },
 
@@ -146,6 +148,109 @@
                         });
                     }    
                 }
+            });
+
+            
+            $(".user_datatable tbody").on('click',".edit", function(){
+                var editid = $(this).attr('id');
+                ename = $(this).attr('nam');
+                $("#editname").val(ename);
+                eemail = $(this).attr('mail');
+                $("#editemail").val(eemail);
+                $('#EditUserModal').show();
+
+                $("#SubmitEditUserForm").click(function(e){
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: "{{ url('edit_user') }}",
+                        method: 'POST',
+                        data:{
+                            id: editid,
+                            name:$("#editname").val(),
+                            email:$("#editemail").val(),
+                            password:$("#editpassword").val(),
+                        },
+                        success: function(result){
+                            console.log(result);
+                            if(result.errors) {
+                                $('.alert-danger').html('');
+                                $.each(result.errors, function(key, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                });
+                            }    
+                            else {
+                                $('.alert-danger').hide();
+                                $('.alert-success').show();
+                                $('.user_datatable').DataTable().ajax.reload(false);
+                                    setInterval(function(){ 
+                                        $('.alert-success').hide();
+                                        $('#EditUserModal').hide();
+                                    }, 1000);
+                            }
+                        }
+                    })
+                })
+            });
+
+            $('.modelClose').on('click', function(){
+                $('#EditUserModal').hide();
+            });
+
+            $(".create").on('click', function(){
+                $('#CreateUserModal').show();
+
+                $("#SubmitCreateUserForm").click(function(e){
+                    e.preventDefault();
+                    $.ajaxSetup({
+                            headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                    $.ajax({
+                        url: "{{ url('create_user') }}",
+                        method: 'post',
+                        data: {
+                            name: $('#name').val(),
+                            email: $('#email').val(),
+                            password: $('#password').val(),
+                        },
+                        success: function(result) {
+                            console.log(result);
+                            if(result.errors) {
+                                $('.alert-danger').html('');
+                                $.each(result.errors, function(key, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                });
+                            } 
+                            else {
+                                $('.alert-danger').hide();
+                                $('.alert-success').show();
+                                $('.user_datatable').DataTable().ajax.reload(false);
+                                setInterval(function(){ 
+                                    $('.alert-success').hide();
+                                    $('#CreateUserModal').hide();
+                                }, 1000);
+                            }
+                        }
+                    });
+                });
+            })
+
+            $(".close").on('click', function(){
+                $('#CreateUserModal').hide();
+
+            })
+            $("#close").on('click', function(){
+                $('#CreateUserModal').hide();
+
             })
         });
 

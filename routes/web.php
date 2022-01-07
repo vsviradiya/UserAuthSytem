@@ -25,6 +25,34 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::post('del_user', [App\Http\Controllers\HomeController::class, 'delete']);
 
+// Route::post('create_user',[App\Http\Controllers\HomeController::class, 'store']);
+
+// Route::post('edit_user',[App\Http\Controllers\HomeController::class, 'update']);
+
+Route::get('/form',function() {
+    return view('form');
+ });
+
+//  Route::resource('/home', CrudController::class);
+
+ Route::get('/create',[App\Http\Controllers\HomeController::class, 'create']);
+
+ Route::post('insert_user',[App\Http\Controllers\HomeController::class, 'store'])->name('insert_user');
+
+
+ Route::get('edit/{id}',[App\Http\Controllers\HomeController::class, 'edit']);
+
+ Route::post('edit_user',[App\Http\Controllers\HomeController::class, 'update'])->name('edit_user');
+
+
+
+
+
+
+
+
+
+
 
 // Route::get('/subscribers', function () {
    
