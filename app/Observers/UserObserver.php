@@ -4,15 +4,36 @@ namespace App\Observers;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use \BinaryCabin\LaravelUUID\Traits\HasUUID;
 
 class UserObserver
 {
+    /**
+     * Handle the User "creating" event.
+     *
+     * @param  \App\Models\User  $user
+     * @return void
+     */
+    public function creating(User $user){
+        info('creating called');
+        
+        function unique_code($limit)
+        {
+            return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+        }
+        $user->unique_id = unique_code(6);
+
+        // $user->unique_id = (string) Uuid::generate(6);
+
+        // $user->unique_id = mt_rand(100000, 999999);
+    }
     /**
      * Handle the User "created" event.
      *
      * @param  \App\Models\User  $user
      * @return void
      */
+    
     public function created(User $user)
     {
         

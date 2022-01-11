@@ -102,6 +102,8 @@
                         {data: 'id', name: 'id'},
                         {data: 'name', name: 'name'},
                         {data: 'email', name: 'email'},
+                        {data: 'subscriptionday', name: 'subscriptionday'},
+                        {data: 'unique_id', name: 'unique_id'},
                         {
                         "data": null,
                         "searchable": false,
@@ -150,108 +152,6 @@
                 }
             });
 
-            
-            $(".user_datatable tbody").on('click',".edit", function(){
-                var editid = $(this).attr('id');
-                ename = $(this).attr('nam');
-                $("#editname").val(ename);
-                eemail = $(this).attr('mail');
-                $("#editemail").val(eemail);
-                $('#EditUserModal').show();
-
-                $("#SubmitEditUserForm").click(function(e){
-                    e.preventDefault();
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: "{{ url('edit_user') }}",
-                        method: 'POST',
-                        data:{
-                            id: editid,
-                            name:$("#editname").val(),
-                            email:$("#editemail").val(),
-                            password:$("#editpassword").val(),
-                        },
-                        success: function(result){
-                            console.log(result);
-                            if(result.errors) {
-                                $('.alert-danger').html('');
-                                $.each(result.errors, function(key, value) {
-                                    $('.alert-danger').show();
-                                    $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                });
-                            }    
-                            else {
-                                $('.alert-danger').hide();
-                                $('.alert-success').show();
-                                $('.user_datatable').DataTable().ajax.reload(false);
-                                    setInterval(function(){ 
-                                        $('.alert-success').hide();
-                                        $('#EditUserModal').hide();
-                                    }, 1000);
-                            }
-                        }
-                    })
-                })
-            });
-
-            $('.modelClose').on('click', function(){
-                $('#EditUserModal').hide();
-            });
-
-            $(".create").on('click', function(){
-                $('#CreateUserModal').show();
-
-                $("#SubmitCreateUserForm").click(function(e){
-                    e.preventDefault();
-                    $.ajaxSetup({
-                            headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                    $.ajax({
-                        url: "{{ url('create_user') }}",
-                        method: 'post',
-                        data: {
-                            name: $('#name').val(),
-                            email: $('#email').val(),
-                            password: $('#password').val(),
-                        },
-                        success: function(result) {
-                            console.log(result);
-                            if(result.errors) {
-                                $('.alert-danger').html('');
-                                $.each(result.errors, function(key, value) {
-                                    $('.alert-danger').show();
-                                    $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                });
-                            } 
-                            else {
-                                $('.alert-danger').hide();
-                                $('.alert-success').show();
-                                $('.user_datatable').DataTable().ajax.reload(false);
-                                setInterval(function(){ 
-                                    $('.alert-success').hide();
-                                    $('#CreateUserModal').hide();
-                                }, 1000);
-                            }
-                        }
-                    });
-                });
-            })
-
-            $(".close").on('click', function(){
-                $('#CreateUserModal').hide();
-
-            })
-            $("#close").on('click', function(){
-                $('#CreateUserModal').hide();
-
-            })
         });
 
     </script>

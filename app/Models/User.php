@@ -8,7 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 use App\Models\HasEvents;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 
 class User extends Authenticatable
 {
@@ -23,6 +27,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'subscriptionday',
+        'unique_id'
     ];
 
     /**
@@ -43,4 +49,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function setPasswordAttribute($value) {
+
+        $this->attributes['password'] = Hash::make($value);
+    }
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+            
+    public function setSubscriptiondayAttribute() {
+        
+        $this->attributes['subscriptionday'] = Carbon::now()->addDays(7)->format('Y-m-d');
+    }
 }

@@ -6,17 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 
-use Validator;
-
-use App\Mail\Subscribe;
-
 use Yajra\Datatables\Datatables;
 
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 
-use App\Http\Controllers\Session;
-
-use App\Http\Controllers\Hash;
 
 class HomeController extends Controller
 {
@@ -43,8 +36,10 @@ class HomeController extends Controller
                     'users.id',
                     'users.name',
                     'users.email',
+                    'users.subscriptionday',
+                    'users.unique_id'
                 )
-            )->get();
+            );
             return Datatables::of($data)->make(true);
         }
         return view('home');
@@ -54,62 +49,57 @@ class HomeController extends Controller
     {
         User::destroy($request->id);
 
-        //$del_user = User::findOne('id', $request->id)->delete();
-
         return Response()->json("deleted");
 
-        // $details = [
-        //     'title' => 'Mail from logisticli15',
-        //     'body' => 'This is for testing email using smtp'
-        // ];
-      
-        // Mail::to('vaibhavviradiya123.vv@gmail.com')->send(new \App\Mail\Subscribe($details));
     }
 
     public function create()
     {
-        return view('create');
+        return view('user_create');
     }
 
-    public function store(Request $request, User $user) {
-           
-        // dd($request->name, $request->email, $request->password);
+    public function store(Request $request, User $user)
+    {
+        // dd($request->all());
 
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:5',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        $request['password'] = bcrypt($request['password']);
-        
-        User::create($request->all());
+        // $request['password'] = bcrypt($request['password']);
 
-        // Session::flash('flash_message', 'User successfully added!');
+        // User::create($request->all());
+        $user = User::create([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'subscriptionday' =>$request->get('subscriptionday'),
+        ]);
 
-        return redirect('home')->with('success','User inserted successfully');
-        
+        return redirect('home')->with('success', 'User inserted successfully');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $user = User::findOrFail($id);
-        return view('edit',compact('user'));
+        return view('user_edit', compact('user'));
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
 
-        // dd($id);
-         
-        // dd($request->id);
         $id = $request->id;
+
         $user = User::findOrFail($id);
 
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:5',
-        ],[
+            'password' => 'required|min:8',
+        ], [
             'name.required' => 'Name is required',
             'email.required' => 'email is required',
             'password.required' => 'Password is required'
@@ -121,18 +111,7 @@ class HomeController extends Controller
 
         $user->fill($input)->save();
 
-        return redirect('home')->with('success','User updated successfully');
+        return redirect('home')->with('success', 'User updated successfully');
 
-        // return view('home')->with('success','User updated successfully');
-
-        // $edituser = User::where('id', $request->id)->update($request->all());
-
-        // if($edituser->passes()) {
-        //     return response()->json(['success'=>'User updated successfully']);
-        // }
-        // else{
-        //     return response()->json(['error'=>$request->errors()->all()]);
-        // }
-        
     }
 }
