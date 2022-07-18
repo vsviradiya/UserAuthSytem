@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,6 +44,7 @@ Route::get('/form',function() {
 
  Route::post('edit_user',[App\Http\Controllers\HomeController::class, 'update'])->name('edit_user');
 
+ Route::get('google_pay', [PaymentController::class, 'index'])->name('gpay');
 
 
 
