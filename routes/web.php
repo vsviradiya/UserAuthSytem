@@ -46,6 +46,7 @@ Route::get('/form',function() {
 
  Route::get('google_pay', [PaymentController::class, 'index'])->name('gpay');
 
+ Route::post('create-payment-intent', [PaymentController::class, 'createPaymentIntent']);
 
 
 
